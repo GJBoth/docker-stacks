@@ -5,6 +5,17 @@ FROM phimal-minimal
 LABEL maintainer="Gert-Jan Both"
 USER root
 
+# CUDA stuff.
+ENV CUDA_VERSION 10.0.130
+ENV CUDA_PKG_VERSION 10-0=$CUDA_VERSION-1
+ENV PATH /usr/local/nvidia/bin:/usr/local/cuda/bin:${PATH}
+ENV LD_LIBRARY_PATH /usr/local/nvidia/lib:/usr/local/nvidia/lib64
+ENV NVIDIA_VISIBLE_DEVICES all
+ENV NVIDIA_DRIVER_CAPABILITIES compute,utility
+ENV NVIDIA_REQUIRE_CUDA "cuda>=10.0 brand=tesla,driver>=384,driver<385 brand=tesla,driver>=410,driver<411"
+ENV NCCL_VERSION 2.4.2
+ENV CUDNN_VERSION 7.5.1.10
+
 #Installing cuda
 RUN apt-get update && apt-get install -y --no-install-recommends gnupg2 curl ca-certificates && \
     curl -fsSL https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1804/x86_64/7fa2af80.pub | apt-key add - && \
@@ -13,10 +24,6 @@ RUN apt-get update && apt-get install -y --no-install-recommends gnupg2 curl ca-
     apt-get purge --autoremove -y curl && \
     rm -rf /var/lib/apt/lists/*
 
-ENV CUDA_VERSION 10.0.130
-
-ENV CUDA_PKG_VERSION 10-0=$CUDA_VERSION-1
-
 # For libraries in the cuda-compat-* package: https://docs.nvidia.com/cuda/eula/index.html#attachment-a
 RUN apt-get update && apt-get install -y --no-install-recommends \
         cuda-cudart-$CUDA_PKG_VERSION \
@@ -24,30 +31,18 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     ln -s cuda-10.0 /usr/local/cuda && \
     rm -rf /var/lib/apt/lists/*
 
-ENV PATH /usr/local/nvidia/bin:/usr/local/cuda/bin:${PATH}
-ENV LD_LIBRARY_PATH /usr/local/nvidia/lib:/usr/local/nvidia/lib64
-
 # nvidia-container-runtime
-ENV NVIDIA_VISIBLE_DEVICES all
-ENV NVIDIA_DRIVER_CAPABILITIES compute,utility
-ENV NVIDIA_REQUIRE_CUDA "cuda>=10.0 brand=tesla,driver>=384,driver<385 brand=tesla,driver>=410,driver<411"
-
-ENV NCCL_VERSION 2.4.2
-
 RUN apt-get update && apt-get install -y --no-install-recommends \
         cuda-libraries-$CUDA_PKG_VERSION \
         cuda-nvtx-$CUDA_PKG_VERSION \
         libnccl2=$NCCL_VERSION-1+cuda10.0 && \
     apt-mark hold libnccl2 && \
     rm -rf /var/lib/apt/lists/*
-ENV CUDNN_VERSION 7.5.1.10
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
             libcudnn7=$CUDNN_VERSION-1+cuda10.0 && \
     apt-mark hold libcudnn7 && \
     rm -rf /var/lib/apt/lists/*
-
-
 
 # Install Python 3 packages
 # Remove pyqt and qt pulled in for matplotlib since we're only ever going to
@@ -59,10 +54,6 @@ RUN pip install tensorflow-gpu==1.13.* &&\
     fix-permissions $CONDA_DIR && \
     fix-permissions /home/$NB_USER
 
-# Import matplotlib the first time to build the font cache.
-ENV XDG_CACHE_HOME /home/$NB_USER/.cache/
-RUN MPLBACKEND=Agg python -c "import matplotlib.pyplot" && \
-    fix-permissions /home/$NB_USER
 USER $NB_UID
 
 
