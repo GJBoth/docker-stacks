@@ -18,4 +18,4 @@ RUN conda install --quiet --yes \
     fix-permissions $CONDA_DIR && \
     fix-permissions /home/$NB_USER
 
-USER $NB_UID
+USER root

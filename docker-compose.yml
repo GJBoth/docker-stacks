@@ -6,8 +6,11 @@ services:
       - "8888:8888"
       - "6006:6006"
     volumes:  
-      - simplest-sync:/home/jovyan/work:nocopy 
-    command: start.sh jupyter lab
+      - simplest-sync:/home/jovyan/work/:nocopy 
+    command: bash -c "cd /home/jovyan/work/ &&      
+                      python setup.py develop &&         
+                      jupyter lab --allow-root --NotebookApp.token=''"
+             
 
 volumes:
   simplest-sync:

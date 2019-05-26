@@ -12,8 +12,6 @@ RUN apt-get update && \
     apt-get -y install gcc mono-mcs && \
     rm -rf /var/lib/apt/lists/*
 
-USER $NB_UID
-
 # Install Python 3 packages
 # Remove pyqt and qt pulled in for matplotlib since we're only ever going to
 # use notebook-friendly backends in these images
@@ -22,6 +20,7 @@ RUN conda install --quiet --yes \
     'matplotlib=3.0*' \
     'seaborn=0.9*' \
     'numpy=1.16.*' \
+    'setuptools=41.0.*' \
     'git=2.20.*' && \
     pip install jupyterlab-git &&\
     conda remove --quiet --yes --force qt pyqt && \

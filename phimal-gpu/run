@@ -1,1 +1,0 @@
-sudo docker run --runtime=nvidia -p 8888:8888 -p 6006:6006 --rm -it phimal-gpu start.sh jupyter lab 
