@@ -1,0 +1,14 @@
+version: "2"
+services:
+  compute:
+    image: phimal-cpu
+    ports:
+      - "8888:8888"
+      - "6006:6006"
+    volumes:  
+      - simplest-sync:/home/jovyan/work:nocopy 
+    command: start.sh jupyter lab
+
+volumes:
+  simplest-sync:
+    external: true
