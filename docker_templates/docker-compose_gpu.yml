@@ -1,7 +1,8 @@
-version: "2"
+version: "2.3"
 services:
   compute:
     image: {{IMAGE}}
+    runtime: nvidia
     ports:
       - "8888:8888"
       - "6006:6006"

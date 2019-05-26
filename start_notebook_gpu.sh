@@ -2,7 +2,7 @@
 
 #First automatically find project directory
 cd ../
-projectdir=$(PWD)
+projectdir=$(pwd)
 cd config/
 
 # Make docker-sync for project
@@ -12,4 +12,4 @@ sed "s#{{PROJECT_FOLDER}}#$projectdir#g" docker_templates/docker-sync_template.y
 sed "s#{{IMAGE}}#phimal-gpu#g" docker_templates/docker-compose_template.yml > docker-compose.yml
 
 # Run docker sync 
-docker-sync-stack start
+sudo docker-sync-stack start
