@@ -1,7 +1,7 @@
 version: "2"
 services:
   compute:
-    image: phimal-cpu
+    image: {{IMAGE}}
     ports:
       - "8888:8888"
       - "6006:6006"

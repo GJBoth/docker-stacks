@@ -1,5 +1,0 @@
-version: "2"
-
-syncs:
-  simplest-sync:
-    src: '/Users/gert-janboth/Documents/PhD/Projects/DeepMoD_Cytosim/'
