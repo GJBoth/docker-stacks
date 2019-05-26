@@ -1,5 +1,4 @@
-version: "2.3"
-services:
+version: "3"
   compute:
     image: {{IMAGE}}
     runtime: nvidia
