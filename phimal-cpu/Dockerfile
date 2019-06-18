@@ -1,6 +1,6 @@
 # Copyright (c) Jupyter Development Team.
 # Distributed under the terms of the Modified BSD License.
-ARG BASE_CONTAINER=phimal-minimal
+ARG BASE_CONTAINER=phimal/minimal
 FROM $BASE_CONTAINER
 
 LABEL maintainer="Gert-Jan Both"

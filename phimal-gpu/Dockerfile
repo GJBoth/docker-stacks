@@ -1,6 +1,6 @@
 # Copyright (c) Jupyter Development Team.
 # Distributed under the terms of the Modified BSD License.
-FROM phimal-minimal
+FROM phimal/minimal:v0.5
 
 LABEL maintainer="Gert-Jan Both"
 USER root
